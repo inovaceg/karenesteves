@@ -8,6 +8,13 @@
       "when": 1793859204414,
       "tag": "0000_base_clinica",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793860012720,
+      "tag": "0001_anamneses_ai",
+      "breakpoints": true
     }
   ]
 }

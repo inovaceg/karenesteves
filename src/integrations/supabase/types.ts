@@ -14,6 +14,113 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_reports: {
+        Row: {
+          anamnesis_id: string
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          patient_id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+        }
+        Insert: {
+          anamnesis_id: string
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          patient_id: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Update: {
+          anamnesis_id?: string
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          patient_id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_reports_anamnesis_id_fkey"
+            columns: ["anamnesis_id"]
+            isOneToOne: false
+            referencedRelation: "anamneses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_reports_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      anamneses: {
+        Row: {
+          answers: Json
+          created_at: string
+          created_by: string | null
+          current_step: number
+          finalized_at: string | null
+          finalized_by: string | null
+          id: string
+          kind: string
+          mode: string
+          patient_id: string
+          risk_flag: boolean
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          created_by?: string | null
+          current_step?: number
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          kind?: string
+          mode?: string
+          patient_id: string
+          risk_flag?: boolean
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          created_by?: string | null
+          current_step?: number
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          kind?: string
+          mode?: string
+          patient_id?: string
+          risk_flag?: boolean
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anamneses_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -332,6 +439,7 @@ export type Database = {
       }
       is_active_staff: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_clinical_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role:
