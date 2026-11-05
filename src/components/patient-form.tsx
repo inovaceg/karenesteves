@@ -66,14 +66,14 @@ export function PatientForm({ initial, onSaved }: { initial?: PatientRow; onSave
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const parsed = patientSchema.safeParse(v);
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0]?.message); return; }
     setSaving(true);
     const q = initial
       ? supabase.from("patients").update(parsed.data).eq("id", initial.id).select("id").single()
       : supabase.from("patients").insert(parsed.data).select("id").single();
     const { data, error } = await q;
     setSaving(false);
-    if (error) return toast.error("Não foi possível salvar: " + error.message);
+    if (error) { toast.error("Não foi possível salvar: " + error.message); return; }
     toast.success("Paciente salvo");
     onSaved(data.id);
   }
@@ -84,7 +84,7 @@ export function PatientForm({ initial, onSaved }: { initial?: PatientRow; onSave
       <Input id={k} type={type} value={v[k] ?? ""} onChange={set(k)} />
     </div>
   );
-  const age = calcAge(v.birth_date);
+  const age = calcAge(v["birth_date"]);
 
   return (
     <form onSubmit={submit} className="space-y-8">
@@ -93,7 +93,7 @@ export function PatientForm({ initial, onSaved }: { initial?: PatientRow; onSave
         {F({ k: "social_name", label: "Nome social" })}
         <div className="space-y-1.5">
           <Label htmlFor="birth_date">Data de nascimento {age != null && <span className="text-muted-foreground">· {age} anos</span>}</Label>
-          <Input id="birth_date" type="date" value={v.birth_date ?? ""} onChange={set("birth_date")} />
+          <Input id="birth_date" type="date" value={v["birth_date"] ?? ""} onChange={set("birth_date")} />
         </div>
         {F({ k: "cpf", label: "CPF" })}
         {F({ k: "sex", label: "Sexo (quando pertinente)" })}
@@ -110,21 +110,21 @@ export function PatientForm({ initial, onSaved }: { initial?: PatientRow; onSave
       <Section title="Classificação">
         <div className="space-y-1.5">
           <Label>Faixa</Label>
-          <select className={sel} value={v.category} onChange={set("category")}>
+          <select className={sel} value={v["category"]} onChange={set("category")}>
             <option value="adulto">Adulto</option>
             <option value="adolescente">Adolescente</option>
           </select>
         </div>
         <div className="space-y-1.5">
           <Label>Situação do cadastro</Label>
-          <select className={sel} value={v.status} onChange={set("status")}>
+          <select className={sel} value={v["status"]} onChange={set("status")}>
             {Object.entries(PATIENT_STATUS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
           </select>
         </div>
         {F({ k: "entry_date", label: "Data de entrada *", type: "date" })}
         <div className="space-y-1.5">
           <Label>Profissional responsável</Label>
-          <select className={sel} value={v.responsible_professional_id ?? ""} onChange={set("responsible_professional_id")}>
+          <select className={sel} value={v["responsible_professional_id"] ?? ""} onChange={set("responsible_professional_id")}>
             <option value="">—</option>
             {pros?.map((p) => <option key={p.id} value={p.id}>{p.full_name || p.email}</option>)}
           </select>

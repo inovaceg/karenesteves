@@ -61,7 +61,7 @@ function AuthedLayout() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
-        <AppSidebar isAdmin={me.isAdmin} name={me.profile?.full_name || me.user.email || ""} role={ROLE_LABELS[me.roles[0]]} onSignOut={signOut} />
+        <AppSidebar isAdmin={me.isAdmin} name={me.profile?.full_name || me.user.email || ""} role={me.roles[0] ? ROLE_LABELS[me.roles[0]] : ""} onSignOut={signOut} />
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b bg-card/90 px-4 backdrop-blur">
             <SidebarTrigger />

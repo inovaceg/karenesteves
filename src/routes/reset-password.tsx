@@ -26,12 +26,12 @@ function ResetPassword() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (pw.length < 8) return toast.error("A senha deve ter ao menos 8 caracteres");
-    if (pw !== pw2) return toast.error("As senhas não conferem");
+    if (pw.length < 8) { toast.error("A senha deve ter ao menos 8 caracteres"); return; }
+    if (pw !== pw2) { toast.error("As senhas não conferem"); return; }
     setLoading(true);
     const { error } = await supabase.auth.updateUser({ password: pw });
     setLoading(false);
-    if (error) return toast.error("Link inválido ou expirado. Solicite novamente.");
+    if (error) { toast.error("Link inválido ou expirado. Solicite novamente."); return; }
     toast.success("Senha atualizada");
     navigate({ to: "/painel" });
   }
