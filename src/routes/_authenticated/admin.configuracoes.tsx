@@ -34,8 +34,8 @@ function Config() {
     if (!v["clinic_name"]?.trim()) { toast.error("Informe o nome da clínica"); return; }
     const payload: Record<string, string | null> = {};
     for (const [k] of FIELDS) payload[k] = v[k]?.trim().slice(0, 500) || null;
-    payload.professional_info = v["professional_info"]?.trim().slice(0, 2000) || null;
-    payload.clinic_name = v["clinic_name"].trim();
+    payload["professional_info"] = v["professional_info"]?.trim().slice(0, 2000) || null;
+    payload["clinic_name"] = v["clinic_name"].trim();
     const { error } = await supabase.from("clinic_settings").update({ ...payload, clinic_name: v["clinic_name"].trim(), updated_at: new Date().toISOString() }).eq("id", 1);
     if (error) { toast.error(error.message); return; }
     toast.success("Configurações salvas");
