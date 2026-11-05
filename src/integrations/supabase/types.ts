@@ -14,16 +14,336 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          id: number
+          new_data: Json | null
+          old_data: Json | null
+          record_id: string | null
+          table_name: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          id?: never
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string | null
+          table_name: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          id?: never
+          new_data?: Json | null
+          old_data?: Json | null
+          record_id?: string | null
+          table_name?: string
+        }
+        Relationships: []
+      }
+      clinic_settings: {
+        Row: {
+          address: string | null
+          city: string | null
+          clinic_name: string
+          email: string | null
+          id: number
+          logo_url: string | null
+          phone: string | null
+          professional_info: string | null
+          responsible_name: string | null
+          slogan: string | null
+          state: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          clinic_name?: string
+          email?: string | null
+          id?: number
+          logo_url?: string | null
+          phone?: string | null
+          professional_info?: string | null
+          responsible_name?: string | null
+          slogan?: string | null
+          state?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          clinic_name?: string
+          email?: string | null
+          id?: number
+          logo_url?: string | null
+          phone?: string | null
+          professional_info?: string | null
+          responsible_name?: string | null
+          slogan?: string | null
+          state?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      guardians: {
+        Row: {
+          created_at: string
+          documents: string | null
+          email: string | null
+          full_name: string
+          id: string
+          legal_authorizations: string | null
+          patient_id: string
+          phone: string | null
+          relationship: string | null
+        }
+        Insert: {
+          created_at?: string
+          documents?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          legal_authorizations?: string | null
+          patient_id: string
+          phone?: string | null
+          relationship?: string | null
+        }
+        Update: {
+          created_at?: string
+          documents?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          legal_authorizations?: string | null
+          patient_id?: string
+          phone?: string | null
+          relationship?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guardians_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient_professionals: {
+        Row: {
+          created_at: string
+          id: string
+          patient_id: string
+          professional_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          patient_id: string
+          professional_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          patient_id?: string
+          professional_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_professionals_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_professionals_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patients: {
+        Row: {
+          address: string | null
+          birth_date: string | null
+          category: string
+          city: string | null
+          code: string
+          cpf: string | null
+          created_at: string
+          created_by: string | null
+          education: string | null
+          email: string | null
+          entry_date: string
+          full_name: string
+          id: string
+          marital_status: string | null
+          phone: string | null
+          profession: string | null
+          referral_source: string | null
+          responsible_professional_id: string | null
+          sex: string | null
+          social_name: string | null
+          state: string | null
+          status: string
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          address?: string | null
+          birth_date?: string | null
+          category?: string
+          city?: string | null
+          code?: string
+          cpf?: string | null
+          created_at?: string
+          created_by?: string | null
+          education?: string | null
+          email?: string | null
+          entry_date?: string
+          full_name: string
+          id?: string
+          marital_status?: string | null
+          phone?: string | null
+          profession?: string | null
+          referral_source?: string | null
+          responsible_professional_id?: string | null
+          sex?: string | null
+          social_name?: string | null
+          state?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string | null
+          birth_date?: string | null
+          category?: string
+          city?: string | null
+          code?: string
+          cpf?: string | null
+          created_at?: string
+          created_by?: string | null
+          education?: string | null
+          email?: string | null
+          entry_date?: string
+          full_name?: string
+          id?: string
+          marital_status?: string | null
+          phone?: string | null
+          profession?: string | null
+          referral_source?: string | null
+          responsible_professional_id?: string | null
+          sex?: string | null
+          social_name?: string | null
+          state?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patients_responsible_professional_id_fkey"
+            columns: ["responsible_professional_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          professional_registry: string | null
+          status: Database["public"]["Enums"]["user_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id: string
+          phone?: string | null
+          professional_registry?: string | null
+          status?: Database["public"]["Enums"]["user_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          professional_registry?: string | null
+          status?: Database["public"]["Enums"]["user_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_active_staff: { Args: { _user_id: string }; Returns: boolean }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role:
+        | "admin"
+        | "terapeuta"
+        | "psicologo"
+        | "medico"
+        | "assistente_social"
+        | "enfermagem"
+        | "outro"
+        | "recepcao"
+      user_status: "pendente" | "ativo" | "suspenso"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +470,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: [
+        "admin",
+        "terapeuta",
+        "psicologo",
+        "medico",
+        "assistente_social",
+        "enfermagem",
+        "outro",
+        "recepcao",
+      ],
+      user_status: ["pendente", "ativo", "suspenso"],
+    },
   },
 } as const
