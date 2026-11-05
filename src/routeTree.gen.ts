@@ -14,6 +14,9 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedPacientesIndexRouteImport } from './routes/_authenticated/pacientes.index'
+import { Route as AuthenticatedPacientesIdRouteImport } from './routes/_authenticated/pacientes.$id'
+import { Route as AuthenticatedPacientesNovoRouteImport } from './routes/_authenticated/pacientes.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,18 +42,42 @@ const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPacientesIndexRoute =
+  AuthenticatedPacientesIndexRouteImport.update({
+    id: '/pacientes/',
+    path: '/pacientes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPacientesIdRoute =
+  AuthenticatedPacientesIdRouteImport.update({
+    id: '/pacientes/$id',
+    path: '/pacientes/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPacientesNovoRoute =
+  AuthenticatedPacientesNovoRouteImport.update({
+    id: '/pacientes/novo',
+    path: '/pacientes/novo',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/pacientes/$id': typeof AuthenticatedPacientesIdRoute
+  '/pacientes/novo': typeof AuthenticatedPacientesNovoRoute
+  '/pacientes/': typeof AuthenticatedPacientesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/pacientes/$id': typeof AuthenticatedPacientesIdRoute
+  '/pacientes/novo': typeof AuthenticatedPacientesNovoRoute
+  '/pacientes': typeof AuthenticatedPacientesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +86,29 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/pacientes/$id': typeof AuthenticatedPacientesIdRoute
+  '/_authenticated/pacientes/novo': typeof AuthenticatedPacientesNovoRoute
+  '/_authenticated/pacientes/': typeof AuthenticatedPacientesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/painel'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/painel'
+    | '/pacientes/$id'
+    | '/pacientes/novo'
+    | '/pacientes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/painel'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/painel'
+    | '/pacientes/$id'
+    | '/pacientes/novo'
+    | '/pacientes'
   id:
     | '__root__'
     | '/'
@@ -72,6 +116,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/painel'
+    | '/_authenticated/pacientes/$id'
+    | '/_authenticated/pacientes/novo'
+    | '/_authenticated/pacientes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,15 +165,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pacientes/': {
+      id: '/_authenticated/pacientes/'
+      path: '/pacientes'
+      fullPath: '/pacientes/'
+      preLoaderRoute: typeof AuthenticatedPacientesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pacientes/$id': {
+      id: '/_authenticated/pacientes/$id'
+      path: '/pacientes/$id'
+      fullPath: '/pacientes/$id'
+      preLoaderRoute: typeof AuthenticatedPacientesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pacientes/novo': {
+      id: '/_authenticated/pacientes/novo'
+      path: '/pacientes/novo'
+      fullPath: '/pacientes/novo'
+      preLoaderRoute: typeof AuthenticatedPacientesNovoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedPacientesIdRoute: typeof AuthenticatedPacientesIdRoute
+  AuthenticatedPacientesNovoRoute: typeof AuthenticatedPacientesNovoRoute
+  AuthenticatedPacientesIndexRoute: typeof AuthenticatedPacientesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedPacientesIdRoute: AuthenticatedPacientesIdRoute,
+  AuthenticatedPacientesNovoRoute: AuthenticatedPacientesNovoRoute,
+  AuthenticatedPacientesIndexRoute: AuthenticatedPacientesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
